@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { z } from "zod";
 import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
+import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -50,22 +52,22 @@ function ContactPage() {
 
       <section className="section-pad">
         <div className="container-page grid lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4 space-y-10">
+          <StaggerGroup className="lg:col-span-4 space-y-10">
             {[
               ["General Enquiries", "hello@proofofpotential.co.za"],
               ["Partnership Enquiries", "partners@proofofpotential.co.za"],
               ["Media Enquiries", "media@proofofpotential.co.za"],
               ["Research Participation", "research@proofofpotential.co.za"],
             ].map(([k, v]) => (
-              <div key={k}>
+              <motion.div key={k} variants={staggerItem}>
                 <p className="mono-label">{`< ${k.toLowerCase().replace(/ /g, "_")} >`}</p>
                 <p className="font-mono text-xs uppercase tracking-widest mt-3">{k}</p>
                 <p className="mt-2 font-mono text-xs text-muted-foreground">{v}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
 
-          <div className="lg:col-span-7 lg:col-start-6">
+          <Reveal delay={0.1} className="lg:col-span-7 lg:col-start-6">
             {done ? (
               <div className="border border-charcoal/15 p-10">
                 <p className="mono-label" style={{ color: "var(--emerald-deep)" }}>{'< sent >'}</p>
@@ -97,7 +99,7 @@ function ContactPage() {
                 <button type="submit" className="btn-primary">Send Message</button>
               </form>
             )}
-          </div>
+          </Reveal>
         </div>
       </section>
 

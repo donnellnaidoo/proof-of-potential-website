@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
+import { StaggerGroup, staggerItem } from "@/components/motion/reveal";
 import { ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/blog")({
@@ -36,9 +38,9 @@ function BlogPage() {
 
       <section className="section-pad">
         <div className="container-page">
-          <ul className="divide-y border-y border-charcoal/10">
+          <StaggerGroup as="ul" className="divide-y border-y border-charcoal/10">
             {posts.map((p, i) => (
-              <li key={p.t}>
+              <motion.li key={p.t} variants={staggerItem}>
                 <Link to="/blog" className="group grid grid-cols-12 items-center py-8 gap-6">
                   <span className="col-span-1 font-mono text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
                   <span className="col-span-11 md:col-span-2 mono-label" style={{ color: "var(--emerald-deep)" }}>{p.c}</span>
@@ -49,9 +51,9 @@ function BlogPage() {
                   <span className="hidden md:block col-span-2 mono-label">{p.date}</span>
                   <ArrowUpRight className="hidden md:block col-span-1 ml-auto opacity-40 group-hover:opacity-100 transition-opacity" />
                 </Link>
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </StaggerGroup>
         </div>
       </section>
 
