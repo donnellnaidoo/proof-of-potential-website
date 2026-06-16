@@ -113,7 +113,7 @@ function Home() {
                 <ul className="mt-8 space-y-3">
                   {c.items.map((i) => (
                     <li key={i} className="flex items-start gap-3 font-mono text-xs tracking-widest uppercase text-white/80">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0" style={{ background: "var(--emerald-brand)" }} />
+                      <span className="mt-1 h-1.5 w-1.5 shrink-0" style={{ background: "var(--emerald-brand)" }} />
                       {i}
                     </li>
                   ))}
