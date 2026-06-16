@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { z } from "zod";
 import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
+import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
 import researchImg from "@/assets/research.jpg";
 
 export const Route = createFileRoute("/research")({
@@ -59,57 +61,61 @@ function ResearchPage() {
 
       <section className="section-pad">
         <div className="container-page grid lg:grid-cols-12 gap-12 items-start">
-          <div className="lg:col-span-5">
+          <Reveal className="lg:col-span-5">
             <img src={researchImg} alt="Researcher interviewing a participant" loading="lazy" width={1280} height={1280} className="aspect-[4/5] w-full object-cover" />
-          </div>
-          <div className="lg:col-span-7 space-y-6 text-sm leading-relaxed" style={{ fontFamily: "var(--font-mono)" }}>
+          </Reveal>
+          <Reveal delay={0.1} className="lg:col-span-7 space-y-6 text-sm leading-relaxed">
             <p className="mono-label">{'< why_research_matters >'}</p>
-            <p>
-              The systems we use to match people with opportunity were not designed with the
-              full picture. Before building anything, we want to deeply understand how hiring
-              actually works today — what helps, what hurts, and what's missing.
-            </p>
-            <p>
-              Your input will help shape an evidence-based platform that serves both the people
-              looking for work and the organisations looking for the right talent.
-            </p>
-            <p className="mono-label">{'< how_data_is_used >'}</p>
-            <p className="text-muted-foreground">
-              Conversations are confidential. Findings are aggregated and anonymised. We never
-              share individual responses with third parties.
-            </p>
-          </div>
+            <div style={{ fontFamily: "var(--font-mono)" }} className="space-y-6">
+              <p>
+                The systems we use to match people with opportunity were not designed with the
+                full picture. Before building anything, we want to deeply understand how hiring
+                actually works today — what helps, what hurts, and what's missing.
+              </p>
+              <p>
+                Your input will help shape an evidence-based platform that serves both the people
+                looking for work and the organisations looking for the right talent.
+              </p>
+              <p className="mono-label">{'< how_data_is_used >'}</p>
+              <p className="text-muted-foreground">
+                Conversations are confidential. Findings are aggregated and anonymised. We never
+                share individual responses with third parties.
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       <section style={{ background: "var(--charcoal)", color: "var(--offwhite)" }}>
         <div className="container-page section-pad">
-          <p className="mono-label" style={{ color: "var(--emerald-brand)" }}>{'< who_we\'re_speaking_with >'}</p>
-          <h2 className="display-lg mt-6">Participant groups.</h2>
-          <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
+          <Reveal>
+            <p className="mono-label" style={{ color: "var(--emerald-brand)" }}>{'< who_we\'re_speaking_with >'}</p>
+            <h2 className="display-lg mt-6">Participant groups.</h2>
+          </Reveal>
+          <StaggerGroup className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
             {groups.map((g, i) => (
-              <div key={g.k} className="p-8" style={{ background: "var(--charcoal)" }}>
+              <motion.div key={g.k} variants={staggerItem} className="p-8" style={{ background: "var(--charcoal)" }}>
                 <p className="font-mono text-xs" style={{ color: "var(--emerald-brand)" }}>0{i + 1}</p>
                 <h3 className="font-mono text-xs uppercase tracking-widest mt-4">{g.k}</h3>
                 <p className="mt-4 font-mono text-sm text-white/70">{g.v}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
       <section className="section-pad">
         <div className="container-page grid lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4">
+          <Reveal className="lg:col-span-4">
             <p className="mono-label">{'< sign_up >'}</p>
             <h2 className="display-lg mt-6">Participate in research.</h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
               Add your name to the list. We'll reach out with a short, time-flexible interview
               suited to your stakeholder group.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-7 lg:col-start-6">
+          <Reveal delay={0.1} className="lg:col-span-7 lg:col-start-6">
             {submitted ? (
               <div className="border border-charcoal/15 p-10">
                 <p className="mono-label" style={{ color: "var(--emerald-deep)" }}>{'< thank_you >'}</p>
@@ -151,7 +157,7 @@ function ResearchPage() {
                 <button type="submit" className="btn-primary">Submit</button>
               </form>
             )}
-          </div>
+          </Reveal>
         </div>
       </section>
 

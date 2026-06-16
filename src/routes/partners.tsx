@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
+import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
 
 export const Route = createFileRoute("/partners")({
   head: () => ({
@@ -34,31 +36,35 @@ function PartnersPage() {
 
       <section className="section-pad">
         <div className="container-page">
-          <p className="mono-label">{'< who_we\'re_partnering_with >'}</p>
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-charcoal/10 border border-charcoal/10">
+          <Reveal>
+            <p className="mono-label">{'< who_we\'re_partnering_with >'}</p>
+          </Reveal>
+          <StaggerGroup className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-charcoal/10 border border-charcoal/10">
             {audience.map((a, i) => (
-              <div key={a} className="p-8 bg-background flex items-center justify-between">
+              <motion.div key={a} variants={staggerItem} className="p-8 bg-background flex items-center justify-between">
                 <span className="font-mono text-xs uppercase tracking-widest">{a}</span>
                 <span className="font-mono text-xs" style={{ color: "var(--emerald-deep)" }}>0{i + 1}</span>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
       <section style={{ background: "var(--charcoal)", color: "var(--offwhite)" }}>
         <div className="container-page section-pad">
-          <p className="mono-label" style={{ color: "var(--emerald-brand)" }}>{'< partnership_tiers >'}</p>
-          <h2 className="display-lg mt-6">Three ways to partner.</h2>
-          <div className="mt-16 grid lg:grid-cols-3 gap-px bg-white/10">
+          <Reveal>
+            <p className="mono-label" style={{ color: "var(--emerald-brand)" }}>{'< partnership_tiers >'}</p>
+            <h2 className="display-lg mt-6">Three ways to partner.</h2>
+          </Reveal>
+          <StaggerGroup className="mt-16 grid lg:grid-cols-3 gap-px bg-white/10">
             {tiers.map((t, i) => (
-              <div key={t.k} className="p-10" style={{ background: "var(--charcoal)" }}>
+              <motion.div key={t.k} variants={staggerItem} className="p-10" style={{ background: "var(--charcoal)" }}>
                 <p className="font-mono text-xs" style={{ color: "var(--emerald-brand)" }}>0{i + 1}</p>
                 <h3 className="display-md mt-4">{t.k}</h3>
                 <p className="mt-4 font-mono text-sm text-white/70">{t.v}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
           <div className="mt-16">
             <Link to="/contact" className="btn-primary">Start a Conversation</Link>
           </div>

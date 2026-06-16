@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { Reveal, StaggerGroup, staggerContainer, staggerItem } from "@/components/motion/reveal";
 import heroImg from "@/assets/hero.jpg";
 import youthImg from "@/assets/youth.jpg";
 import employersImg from "@/assets/employers.jpg";
@@ -32,64 +34,84 @@ function Home() {
         />
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.85) 100%)" }} />
         <Header variant="dark" />
-        <div className="relative flex-1 flex flex-col items-center justify-center text-center">
+        <motion.div
+          className="relative flex-1 flex flex-col items-center justify-center text-center"
+          initial="hidden"
+          animate="show"
+          variants={staggerContainer}
+        >
           <div className="w-full max-w-[80rem] px-6 lg:px-10 flex flex-col">
             <div className="flex-1 flex flex-col justify-end pb-16">
-              <p className="mono-label" style={{ color: "var(--emerald-brand)" }}>
+              <motion.p className="mono-label" style={{ color: "var(--emerald-brand)" }} variants={staggerItem}>
                 {'< demonstrating_capability • expanding_opportunity >'}
-              </p>
+              </motion.p>
             </div>
-            <h1 className="display-xl font-normal" style={{ fontSize: "clamp(2.25rem, 5.5vw, 5rem)" }}>
+            <motion.h1
+              className="display-xl font-normal"
+              style={{ fontSize: "clamp(2.25rem, 5.5vw, 5rem)" }}
+              variants={staggerItem}
+            >
               Discover Potential. <br />
               Unlock <span style={{ color: "var(--emerald-brand)" }}>Opportunity.</span>
-            </h1>
+            </motion.h1>
             <div className="flex-1 flex flex-col justify-start pt-16">
-              <p className="max-w-2xl mx-auto text-xs tracking-widest uppercase text-white/75" style={{ fontFamily: "var(--font-mono)" }}>
+              <motion.p
+                className="max-w-2xl mx-auto text-xs tracking-widest uppercase text-white/75"
+                style={{ fontFamily: "var(--font-mono)" }}
+                variants={staggerItem}
+              >
                 Proof of Potential helps young people identify careers where they are most likely to succeed
                 — and enables employers to discover talent beyond traditional CVs.
-              </p>
-              <div className="mt-6 flex flex-wrap justify-center gap-4">
+              </motion.p>
+              <motion.div className="mt-6 flex flex-wrap justify-center gap-4" variants={staggerItem}>
                 <Link to="/research" className="btn-primary">Join the Research <ArrowRight className="w-4 h-4" /></Link>
                 <Link to="/partners" className="btn-outline">Partner With Us</Link>
-              </div>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* THE CHALLENGE */}
       <section className="section-pad">
         <div className="container-page grid lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4">
+          <Reveal className="lg:col-span-4">
             <p className="mono-label">{'< the_challenge >'}</p>
             <h2 className="display-lg mt-6">The system is missing talent.</h2>
-          </div>
-          <div className="lg:col-span-7 lg:col-start-6 space-y-6 text-sm leading-relaxed" style={{ fontFamily: "var(--font-mono)" }}>
-            <p>
-              Millions of young people are excluded from opportunities because traditional hiring relies
-              heavily on qualifications, experience, and networks. Many capable individuals never get
-              the chance to demonstrate what they can do.
-            </p>
-            <p>
-              Employers face a different challenge: finding candidates with the right potential,
-              attitude, and capability remains difficult using CVs alone.
-            </p>
-            <p className="text-2xl lg:text-3xl font-semibold leading-snug pt-4" style={{ borderLeft: "3px solid var(--emerald-brand)", paddingLeft: "1.5rem" }}>
-              Proof of Potential aims to bridge this gap.
-            </p>
-          </div>
+          </Reveal>
+          <Reveal
+            delay={0.1}
+            className="lg:col-span-7 lg:col-start-6 space-y-6 text-sm leading-relaxed"
+          >
+            <div style={{ fontFamily: "var(--font-mono)" }} className="space-y-6">
+              <p>
+                Millions of young people are excluded from opportunities because traditional hiring relies
+                heavily on qualifications, experience, and networks. Many capable individuals never get
+                the chance to demonstrate what they can do.
+              </p>
+              <p>
+                Employers face a different challenge: finding candidates with the right potential,
+                attitude, and capability remains difficult using CVs alone.
+              </p>
+              <p className="text-2xl lg:text-3xl font-semibold leading-snug pt-4" style={{ borderLeft: "3px solid var(--emerald-brand)", paddingLeft: "1.5rem" }}>
+                Proof of Potential aims to bridge this gap.
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* NEW APPROACH */}
       <section style={{ background: "var(--charcoal)", color: "var(--offwhite)" }}>
         <div className="container-page section-pad">
-          <p className="mono-label" style={{ color: "var(--emerald-brand)" }}>{'< a_new_approach >'}</p>
-          <h2 className="display-lg mt-6 max-w-4xl">
-            Talent should be discovered through demonstrated <span style={{ color: "var(--emerald-brand)" }}>capability</span>, not just credentials.
-          </h2>
+          <Reveal>
+            <p className="mono-label" style={{ color: "var(--emerald-brand)" }}>{'< a_new_approach >'}</p>
+            <h2 className="display-lg mt-6 max-w-4xl">
+              Talent should be discovered through demonstrated <span style={{ color: "var(--emerald-brand)" }}>capability</span>, not just credentials.
+            </h2>
+          </Reveal>
 
-          <div className="mt-20 grid lg:grid-cols-2 gap-px bg-white/10">
+          <StaggerGroup className="mt-20 grid lg:grid-cols-2 gap-px bg-white/10">
             {[
               {
                 img: youthImg,
@@ -104,7 +126,7 @@ function Home() {
                 items: ["Discover untapped talent", "Reduce hiring risk", "Assess potential more effectively", "Make informed hiring decisions"],
               },
             ].map((c) => (
-              <div key={c.tag} style={{ background: "var(--charcoal)" }} className="p-8 lg:p-12">
+              <motion.div key={c.tag} variants={staggerItem} style={{ background: "var(--charcoal)" }} className="p-8 lg:p-12">
                 <div className="aspect-[16/10] overflow-hidden">
                   <img src={c.img} alt="" loading="lazy" width={1280} height={1280} className="h-full w-full object-cover" />
                 </div>
@@ -118,9 +140,9 @@ function Home() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
@@ -128,7 +150,7 @@ function Home() {
       <section className="section-pad">
         <div className="container-page">
           <div className="grid lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-5">
+            <Reveal className="lg:col-span-5">
               <p className="mono-label">{'< research_in_progress >'}</p>
               <h2 className="display-lg mt-6">We're listening before we build.</h2>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
@@ -137,18 +159,16 @@ function Home() {
                 predicts workplace success.
               </p>
               <Link to="/research" className="btn-dark mt-10">Participate in Research <ArrowRight className="w-4 h-4" /></Link>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7">
-              <ul className="divide-y divide-charcoal/10 border-y border-charcoal/10">
-                {["Employers", "Recruiters", "HR Professionals", "Students", "Graduates", "Unemployed Youth", "Educators"].map((p, i) => (
-                  <li key={p} className="flex items-center justify-between py-5">
-                    <span className="font-mono text-xs tracking-widest text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="font-mono text-xs uppercase tracking-widest flex-1 ml-8">{p}</span>
-                    <span className="font-mono text-xs uppercase tracking-widest" style={{ color: "var(--emerald-deep)" }}>interviewing</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            </Reveal>
+            <StaggerGroup as="ul" className="lg:col-span-6 lg:col-start-7 divide-y divide-charcoal/10 border-y border-charcoal/10">
+              {["Employers", "Recruiters", "HR Professionals", "Students", "Graduates", "Unemployed Youth", "Educators"].map((p, i) => (
+                <motion.li key={p} variants={staggerItem} className="flex items-center justify-between py-5">
+                  <span className="font-mono text-xs tracking-widest text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-mono text-xs uppercase tracking-widest flex-1 ml-8">{p}</span>
+                  <span className="font-mono text-xs uppercase tracking-widest" style={{ color: "var(--emerald-deep)" }}>interviewing</span>
+                </motion.li>
+              ))}
+            </StaggerGroup>
           </div>
         </div>
       </section>
@@ -156,23 +176,25 @@ function Home() {
       {/* LONG TERM VISION */}
       <section style={{ background: "var(--emerald-brand)", color: "var(--charcoal)" }}>
         <div className="container-page section-pad">
-          <p className="mono-label" style={{ color: "var(--charcoal)" }}>{'< long_term_vision >'}</p>
-          <h2 className="display-lg mt-6 max-w-4xl">
-            Building South Africa's Employability Intelligence Platform.
-          </h2>
-          <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <Reveal>
+            <p className="mono-label" style={{ color: "var(--charcoal)" }}>{'< long_term_vision >'}</p>
+            <h2 className="display-lg mt-6 max-w-4xl">
+              Building South Africa's Employability Intelligence Platform.
+            </h2>
+          </Reveal>
+          <StaggerGroup className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               "Career choices are evidence-based",
               "Hiring decisions focus on capability",
               "Potential is measurable",
               "Opportunity is more accessible",
             ].map((v, i) => (
-              <div key={v} className="border-t-2 border-charcoal pt-6">
+              <motion.div key={v} variants={staggerItem} className="border-t-2 border-charcoal pt-6">
                 <span className="font-mono text-xs">0{i + 1}</span>
                 <p className="display-md mt-4">{v}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
