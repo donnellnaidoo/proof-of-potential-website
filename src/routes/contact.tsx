@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
+import { emailjs, EJS_SERVICE, EJS_TEMPLATES, getEnquiryEmail } from "@/lib/emailjs";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -28,8 +29,9 @@ const schema = z.object({
 function ContactPage() {
   const [done, setDone] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErr(null);
     const fd = new FormData(e.currentTarget);
@@ -38,7 +40,42 @@ function ContactPage() {
       setErr(parsed.error.issues[0]?.message ?? "Invalid input");
       return;
     }
-    setDone(true);
+
+    setLoading(true);
+    const toEmail = getEnquiryEmail(parsed.data.type);
+
+    try {
+      await Promise.all([
+        emailjs.send(EJS_SERVICE, EJS_TEMPLATES.notify, {
+          form_type: "Contact Enquiry",
+          from_name: parsed.data.name,
+          from_email: parsed.data.email,
+          reply_to: parsed.data.email,
+          to_email: toEmail,
+          badge_label: "Enquiry Type",
+          badge_value: parsed.data.type,
+          detail_label: "",
+          detail_value: "",
+          body_label: "Message",
+          body_content: parsed.data.message,
+        }),
+        emailjs.send(EJS_SERVICE, EJS_TEMPLATES.reply, {
+          form_type: "Contact Enquiry",
+          to_name: parsed.data.name,
+          to_email: parsed.data.email,
+          reply_to: toEmail,
+          heading: "We've got your message.",
+          subtext: "Your enquiry has landed safely in our inbox. We'll get back to you within a few business days.",
+          badge_label: "Enquiry Type",
+          badge_value: parsed.data.type,
+        }),
+      ]);
+      setDone(true);
+    } catch {
+      setErr("Something went wrong. Please try again or email us directly at hello@proofofpotential.co.za.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -96,7 +133,9 @@ function ContactPage() {
                   <textarea name="message" required rows={5} maxLength={2000} className="w-full bg-transparent border-b border-charcoal/30 py-3 focus:border-[var(--emerald-brand)] focus:outline-none text-lg" />
                 </div>
                 {err && <p className="font-mono text-xs text-destructive">{err}</p>}
-                <button type="submit" className="btn-primary">Send Message</button>
+                <button type="submit" disabled={loading} className="btn-primary disabled:opacity-60 disabled:cursor-not-allowed">
+                  {loading ? "Sending…" : "Send Message"}
+                </button>
               </form>
             )}
           </Reveal>
