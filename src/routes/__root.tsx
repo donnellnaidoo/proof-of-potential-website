@@ -8,7 +8,8 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { MotionConfig } from "framer-motion";
-import { type ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
+import { initEmailJS } from "@/lib/emailjs";
 
 import appCss from "../styles.css?url";
 
@@ -115,6 +116,10 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    initEmailJS();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

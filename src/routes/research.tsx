@@ -6,6 +6,7 @@ import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
 import researchImg from "@/assets/research.jpg";
+import { emailjs, EJS_SERVICE, EJS_TEMPLATES } from "@/lib/emailjs";
 
 export const Route = createFileRoute("/research")({
   head: () => ({
@@ -37,8 +38,9 @@ const groups = [
 function ResearchPage() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
@@ -47,7 +49,41 @@ function ResearchPage() {
       setError(parsed.error.issues[0]?.message ?? "Invalid input");
       return;
     }
-    setSubmitted(true);
+
+    setLoading(true);
+
+    try {
+      await Promise.all([
+        emailjs.send(EJS_SERVICE, EJS_TEMPLATES.notify, {
+          form_type: "Research Signup",
+          from_name: parsed.data.name,
+          from_email: parsed.data.email,
+          reply_to: parsed.data.email,
+          to_email: "research@proofofpotential.co.za",
+          badge_label: "Stakeholder Type",
+          badge_value: parsed.data.stakeholder,
+          detail_label: "Organisation",
+          detail_value: parsed.data.organisation || "Not provided",
+          body_label: "Availability",
+          body_content: parsed.data.availability || "Not provided",
+        }),
+        emailjs.send(EJS_SERVICE, EJS_TEMPLATES.reply, {
+          form_type: "Research Participation",
+          to_name: parsed.data.name,
+          to_email: parsed.data.email,
+          reply_to: "research@proofofpotential.co.za",
+          heading: "We'll be in touch.",
+          subtext: "Your interest has been recorded. We'll reach out with an interview format suited to your stakeholder group.",
+          badge_label: "Registered As",
+          badge_value: parsed.data.stakeholder,
+        }),
+      ]);
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again or email research@proofofpotential.co.za directly.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -154,7 +190,9 @@ function ResearchPage() {
                   <textarea name="availability" rows={3} maxLength={500} className="w-full bg-transparent border-b border-charcoal/30 py-3 focus:border-[var(--emerald-brand)] focus:outline-none text-lg" placeholder="e.g. Weekday evenings, 30 minutes" />
                 </div>
                 {error && <p className="font-mono text-xs text-destructive">{error}</p>}
-                <button type="submit" className="btn-primary">Submit</button>
+                <button type="submit" disabled={loading} className="btn-primary disabled:opacity-60 disabled:cursor-not-allowed">
+                  {loading ? "Submitting…" : "Submit"}
+                </button>
               </form>
             )}
           </Reveal>
