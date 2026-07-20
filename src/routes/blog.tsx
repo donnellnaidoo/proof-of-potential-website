@@ -4,14 +4,51 @@ import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
 import { StaggerGroup, staggerItem } from "@/components/motion/reveal";
 import { ArrowUpRight } from "lucide-react";
+import heroImg from "@/assets/hero.jpg";
+import { SITE_URL, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
+
+const path = "/blog";
+const pageTitle = "Blog — Insights on Skills-Based Hiring in SA | Proof of Potential";
+const pageDescription =
+  "Essays and research notes on skills-based hiring, youth unemployment, and the future of work in South Africa — published as we learn, not as we polish.";
+const ogImage = absoluteUrl(heroImg);
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: [
-      { title: "Blog — Proof of Potential" },
-      { name: "description", content: "Essays and research notes on skills-based hiring, youth employment, and the future of work." },
-      { property: "og:title", content: "Blog — Proof of Potential" },
-      { property: "og:description", content: "Thought leadership on the future of employability." },
+      { title: pageTitle },
+      { name: "description", content: pageDescription },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDescription },
+      { property: "og:url", content: `${SITE_URL}${path}` },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:title", content: pageTitle },
+      { name: "twitter:description", content: pageDescription },
+      { name: "twitter:image", content: ogImage },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}${path}` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "@id": `${SITE_URL}${path}#blog`,
+          url: `${SITE_URL}${path}`,
+          name: "Proof of Potential Blog",
+          description: pageDescription,
+          isPartOf: { "@id": `${SITE_URL}/#website` },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Blog", path },
+          ])
+        ),
+      },
     ],
   }),
   component: BlogPage,

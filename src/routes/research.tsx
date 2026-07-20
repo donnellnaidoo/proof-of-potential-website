@@ -7,14 +7,51 @@ import { PageHero } from "@/components/site/PageHero";
 import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
 import researchImg from "@/assets/research.jpg";
 import { emailjs, EJS_SERVICE, EJS_TEMPLATES } from "@/lib/emailjs";
+import { SITE_URL, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
+
+const path = "/research";
+const pageTitle = "Employability Research — Take Part | Proof of Potential";
+const pageDescription =
+  "Help shape the future of skills-based hiring in South Africa. Join our employability research as a student, graduate, employer, recruiter or educator.";
+const ogImage = absoluteUrl(researchImg);
 
 export const Route = createFileRoute("/research")({
   head: () => ({
     meta: [
-      { title: "Research — Proof of Potential" },
-      { name: "description", content: "Help shape the future of employability. Participate in our research with youth, employers, recruiters and educators." },
-      { property: "og:title", content: "Research — Proof of Potential" },
-      { property: "og:description", content: "Participate in research shaping skills-based hiring." },
+      { title: pageTitle },
+      { name: "description", content: pageDescription },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDescription },
+      { property: "og:url", content: `${SITE_URL}${path}` },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:title", content: pageTitle },
+      { name: "twitter:description", content: pageDescription },
+      { name: "twitter:image", content: ogImage },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}${path}` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "@id": `${SITE_URL}${path}#webpage`,
+          url: `${SITE_URL}${path}`,
+          name: pageTitle,
+          description: pageDescription,
+          isPartOf: { "@id": `${SITE_URL}/#website` },
+          about: { "@id": `${SITE_URL}/#organization` },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Research", path },
+          ])
+        ),
+      },
     ],
   }),
   component: ResearchPage,

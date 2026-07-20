@@ -1,0 +1,12 @@
+{
+  "name": "Proof of Potential",
+  "short_name": "Proof of Potential",
+  "description": "Skills-based hiring and career discovery platform for South Africa.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9f8f5",
+  "theme_color": "#1a1d27",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" }
+  ]
+}

@@ -3,14 +3,52 @@ import { motion } from "framer-motion";
 import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
+import heroImg from "@/assets/hero.jpg";
+import { SITE_URL, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
+
+const path = "/partners";
+const pageTitle = "Partner With Us | Proof of Potential";
+const pageDescription =
+  "Join employers, universities, TVET colleges, NGOs and researchers building a more inclusive, skills-first labour market in South Africa.";
+const ogImage = absoluteUrl(heroImg);
 
 export const Route = createFileRoute("/partners")({
   head: () => ({
     meta: [
-      { title: "Partners — Proof of Potential" },
-      { name: "description", content: "Partner with us to build a more inclusive employability ecosystem in South Africa." },
-      { property: "og:title", content: "Partners — Proof of Potential" },
-      { property: "og:description", content: "Research, pilot and strategic partnerships." },
+      { title: pageTitle },
+      { name: "description", content: pageDescription },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDescription },
+      { property: "og:url", content: `${SITE_URL}${path}` },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:title", content: pageTitle },
+      { name: "twitter:description", content: pageDescription },
+      { name: "twitter:image", content: ogImage },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}${path}` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "@id": `${SITE_URL}${path}#webpage`,
+          url: `${SITE_URL}${path}`,
+          name: pageTitle,
+          description: pageDescription,
+          isPartOf: { "@id": `${SITE_URL}/#website` },
+          about: { "@id": `${SITE_URL}/#organization` },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Partners", path },
+          ])
+        ),
+      },
     ],
   }),
   component: PartnersPage,

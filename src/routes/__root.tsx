@@ -10,6 +10,7 @@ import {
 import { MotionConfig } from "framer-motion";
 import { type ReactNode, useEffect } from "react";
 import { initEmailJS } from "@/lib/emailjs";
+import { SITE_DESCRIPTION, SITE_NAME, siteJsonLd } from "@/lib/seo";
 
 import appCss from "../styles.css?url";
 
@@ -75,12 +76,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Proof of Potential — Demonstrating Capability. Expanding Opportunity." },
-      { name: "description", content: "Proof of Potential helps young people discover careers where they will thrive and enables employers to find talent beyond the CV." },
-      { name: "author", content: "Proof of Potential" },
-      { property: "og:title", content: "Proof of Potential" },
+      { title: "Proof of Potential — Skills-Based Hiring & Career Discovery in South Africa" },
+      { name: "description", content: SITE_DESCRIPTION },
+      { name: "author", content: SITE_NAME },
+      { name: "theme-color", content: "#1a1d27" },
+      { property: "og:title", content: SITE_NAME },
       { property: "og:description", content: "Demonstrating Capability. Expanding Opportunity." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:locale", content: "en_ZA" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -91,6 +95,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap",
       },
       { rel: "stylesheet", href: appCss },
+      // Placeholder icon set: favicon.svg is a hand-built brand mark (works in all
+      // modern browsers). No real PNG icon set exists yet — the owner should drop
+      // in /public/favicon-32x32.png, /public/favicon-16x16.png, and
+      // /public/apple-touch-icon.png (180x180) and wire up matching <link> tags
+      // for full legacy-browser / iOS home-screen support.
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "manifest", href: "/site.webmanifest" },
+    ],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(siteJsonLd()) },
     ],
   }),
   shellComponent: RootShell,
