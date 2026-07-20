@@ -8,6 +8,7 @@ import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
 import researchImg from "@/assets/research.jpg";
 import { emailjs, EJS_SERVICE, EJS_TEMPLATES } from "@/lib/emailjs";
 import { SITE_URL, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
+import { trackEvent } from "@/lib/analytics";
 
 const path = "/research";
 const pageTitle = "Employability Research — Take Part | Proof of Potential";
@@ -115,6 +116,7 @@ function ResearchPage() {
           badge_value: parsed.data.stakeholder,
         }),
       ]);
+      trackEvent("sign_up", { form_name: "research", method: "form", stakeholder_type: parsed.data.stakeholder });
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Please try again or email research@proofofpotential.co.za directly.");

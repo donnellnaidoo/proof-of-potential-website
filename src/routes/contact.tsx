@@ -8,6 +8,7 @@ import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
 import { emailjs, EJS_SERVICE, EJS_TEMPLATES, getEnquiryEmail } from "@/lib/emailjs";
 import heroImg from "@/assets/hero.jpg";
 import { SITE_URL, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
+import { trackEvent } from "@/lib/analytics";
 
 const path = "/contact";
 const pageTitle = "Contact Us | Proof of Potential";
@@ -108,6 +109,7 @@ function ContactPage() {
           badge_value: parsed.data.type,
         }),
       ]);
+      trackEvent("generate_lead", { form_name: "contact", enquiry_type: parsed.data.type });
       setDone(true);
     } catch {
       setErr("Something went wrong. Please try again or email us directly at hello@proofofpotential.co.za.");
