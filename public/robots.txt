@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://proofofpotential.co.za/sitemap.xml
+Sitemap: https://www.proofofpotential.co.za/sitemap.xml

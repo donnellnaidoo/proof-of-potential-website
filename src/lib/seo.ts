@@ -1,13 +1,15 @@
 /**
  * Shared SEO constants and structured-data (JSON-LD) helpers.
  *
- * Production domain confirmed by the site owner: https://proofofpotential.co.za
+ * Production domain: https://www.proofofpotential.co.za (the non-www host
+ * 308-redirects here, confirmed via `curl -I` against both hosts — this is
+ * the canonical, live host and must match what's submitted in GSC).
  * No GA4 / Google Search Console property exists yet — nothing here fabricates
  * tracking IDs. No social profiles exist yet — Organization schema intentionally
  * omits `sameAs` until real profiles exist.
  */
 
-export const SITE_URL = "https://proofofpotential.co.za";
+export const SITE_URL = "https://www.proofofpotential.co.za";
 export const SITE_NAME = "Proof of Potential";
 export const SITE_DESCRIPTION =
   "Proof of Potential helps young South Africans discover careers where they'll thrive through skills-based assessment, and helps employers hire on demonstrated capability instead of the CV alone.";
