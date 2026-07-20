@@ -10,7 +10,7 @@ import {
 import { MotionConfig } from "framer-motion";
 import { type ReactNode, useEffect } from "react";
 import { initEmailJS } from "@/lib/emailjs";
-import { SITE_DESCRIPTION, SITE_NAME, siteJsonLd } from "@/lib/seo";
+import { GA_MEASUREMENT_ID, SITE_DESCRIPTION, SITE_NAME, siteJsonLd } from "@/lib/seo";
 
 import appCss from "../styles.css?url";
 
@@ -104,6 +104,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "manifest", href: "/site.webmanifest" },
     ],
     scripts: [
+      { src: `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`, async: true },
+      {
+        children: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`,
+      },
       { type: "application/ld+json", children: JSON.stringify(siteJsonLd()) },
     ],
   }),

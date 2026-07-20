@@ -11,6 +11,7 @@
 
 export const SITE_URL = "https://www.proofofpotential.co.za";
 export const SITE_NAME = "Proof of Potential";
+export const GA_MEASUREMENT_ID = "G-XPZR3YFDBT";
 export const SITE_DESCRIPTION =
   "Proof of Potential helps young South Africans discover careers where they'll thrive through skills-based assessment, and helps employers hire on demonstrated capability instead of the CV alone.";
 
