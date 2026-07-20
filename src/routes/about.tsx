@@ -3,14 +3,52 @@ import { motion } from "framer-motion";
 import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
+import heroImg from "@/assets/hero.jpg";
+import { SITE_URL, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
+
+const path = "/about";
+const pageTitle = "About Us — Tackling Youth Unemployment in SA | Proof of Potential";
+const pageDescription =
+  "South Africa has one of the world's highest youth unemployment rates. Learn why Proof of Potential exists and how skills-first hiring can close the gap.";
+const ogImage = absoluteUrl(heroImg);
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Proof of Potential" },
-      { name: "description", content: "Why Proof of Potential exists: youth unemployment, hidden talent, skills-first hiring, and career uncertainty." },
-      { property: "og:title", content: "About Proof of Potential" },
-      { property: "og:description", content: "Our mission, vision and values." },
+      { title: pageTitle },
+      { name: "description", content: pageDescription },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDescription },
+      { property: "og:url", content: `${SITE_URL}${path}` },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:title", content: pageTitle },
+      { name: "twitter:description", content: pageDescription },
+      { name: "twitter:image", content: ogImage },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}${path}` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "@id": `${SITE_URL}${path}#webpage`,
+          url: `${SITE_URL}${path}`,
+          name: pageTitle,
+          description: pageDescription,
+          isPartOf: { "@id": `${SITE_URL}/#website` },
+          about: { "@id": `${SITE_URL}/#organization` },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "About", path },
+          ])
+        ),
+      },
     ],
   }),
   component: AboutPage,

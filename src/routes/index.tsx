@@ -7,15 +7,27 @@ import { Reveal, StaggerGroup, staggerContainer, staggerItem } from "@/component
 import heroImg from "@/assets/hero.jpg";
 import youthImg from "@/assets/youth.jpg";
 import employersImg from "@/assets/employers.jpg";
+import { SITE_URL, absoluteUrl } from "@/lib/seo";
+
+const pageTitle = "Proof of Potential — Skills-Based Hiring & Career Discovery";
+const pageDescription =
+  "Proof of Potential helps young South Africans discover careers where they'll thrive, and helps employers hire on skills and potential — not just a CV.";
+const ogImage = absoluteUrl(heroImg);
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Proof of Potential — Discover Potential. Unlock Opportunity." },
-      { name: "description", content: "Helping young people identify careers where they'll succeed, and enabling employers to discover talent beyond traditional CVs." },
-      { property: "og:title", content: "Proof of Potential" },
-      { property: "og:description", content: "Discover potential. Unlock opportunity." },
+      { title: pageTitle },
+      { name: "description", content: pageDescription },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDescription },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:title", content: pageTitle },
+      { name: "twitter:description", content: pageDescription },
+      { name: "twitter:image", content: ogImage },
     ],
+    links: [{ rel: "canonical", href: SITE_URL }],
   }),
   component: Home,
 });
@@ -115,12 +127,14 @@ function Home() {
             {[
               {
                 img: youthImg,
+                alt: "Young South African exploring career options through skills-based assessment",
                 tag: "for_young_people",
                 title: "Find where you'll thrive.",
                 items: ["Understand strengths", "Explore suitable careers", "Identify skill gaps", "Build evidence of capability"],
               },
               {
                 img: employersImg,
+                alt: "Employer evaluating candidates on skills and capability, not just a CV",
                 tag: "for_employers",
                 title: "Hire on what actually matters.",
                 items: ["Discover untapped talent", "Reduce hiring risk", "Assess potential more effectively", "Make informed hiring decisions"],
@@ -128,7 +142,7 @@ function Home() {
             ].map((c) => (
               <motion.div key={c.tag} variants={staggerItem} style={{ background: "var(--charcoal)" }} className="p-8 lg:p-12">
                 <div className="aspect-[16/10] overflow-hidden">
-                  <img src={c.img} alt="" loading="lazy" width={1280} height={1280} className="h-full w-full object-cover" />
+                  <img src={c.img} alt={c.alt} loading="lazy" width={1280} height={1280} className="h-full w-full object-cover" />
                 </div>
                 <p className="mono-label mt-8" style={{ color: "var(--emerald-brand)" }}>{`< ${c.tag} >`}</p>
                 <h3 className="display-md mt-4">{c.title}</h3>

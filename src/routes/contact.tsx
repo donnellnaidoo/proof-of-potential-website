@@ -6,14 +6,52 @@ import { Footer } from "@/components/site/Footer";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal, StaggerGroup, staggerItem } from "@/components/motion/reveal";
 import { emailjs, EJS_SERVICE, EJS_TEMPLATES, getEnquiryEmail } from "@/lib/emailjs";
+import heroImg from "@/assets/hero.jpg";
+import { SITE_URL, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
+
+const path = "/contact";
+const pageTitle = "Contact Us | Proof of Potential";
+const pageDescription =
+  "Get in touch with Proof of Potential for general enquiries, partnerships, media, or to take part in our South African employability research.";
+const ogImage = absoluteUrl(heroImg);
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Proof of Potential" },
-      { name: "description", content: "Get in touch for general enquiries, partnerships, media, or research participation." },
-      { property: "og:title", content: "Contact — Proof of Potential" },
-      { property: "og:description", content: "Let's talk." },
+      { title: pageTitle },
+      { name: "description", content: pageDescription },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDescription },
+      { property: "og:url", content: `${SITE_URL}${path}` },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:title", content: pageTitle },
+      { name: "twitter:description", content: pageDescription },
+      { name: "twitter:image", content: ogImage },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}${path}` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "@id": `${SITE_URL}${path}#webpage`,
+          url: `${SITE_URL}${path}`,
+          name: pageTitle,
+          description: pageDescription,
+          isPartOf: { "@id": `${SITE_URL}/#website` },
+          about: { "@id": `${SITE_URL}/#organization` },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Contact", path },
+          ])
+        ),
+      },
     ],
   }),
   component: ContactPage,
